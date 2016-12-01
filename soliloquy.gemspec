@@ -9,10 +9,10 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Alastair Dawson']
   spec.email         = ['alastair@adhocteam.us']
 
-  spec.summary       = "It's a Ruby structured logger"
+  spec.summary       = "A Ruby structured logger"
   spec.description   = 'A simple structured logger that can output in multiple formats with optional highlighting'
   spec.homepage      = 'https://github.com/department-of-veterans-affairs/soliloquay'
-  spec.license       = 'MIT'
+  spec.license       = 'CC0-1.0'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
