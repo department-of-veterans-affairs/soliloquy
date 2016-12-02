@@ -61,7 +61,7 @@ Rails/Output:
     - 'lib/tasks/**/*'
 
 Metrics/MethodLength:
-  Max: 20
+  Max: 25
 
 Metrics/ClassLength:
   Max: 400
@@ -71,4 +71,7 @@ Metrics/AbcSize:
 
 # removing rule because get_session implies HTTP GET, and informs method
 Style/AccessorMethodName:
+  Enabled: false
+
+Style/RegexpLiteral:
   Enabled: false
