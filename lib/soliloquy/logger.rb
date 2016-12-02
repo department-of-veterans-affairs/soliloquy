@@ -26,27 +26,22 @@ module Soliloquy
     end
 
     def debug(*args, &block)
-      return if args.all?(&:blank?)
       add(DEBUG, message_hash(args, &block))
     end
 
     def info(*args, &block)
-      return if args.all?(&:blank?)
       add(INFO, message_hash(args, &block))
     end
 
     def warn(*args, &block)
-      return if args.all?(&:blank?)
       add(WARN, message_hash(args, &block))
     end
 
     def error(*args, &block)
-      return if args.all?(&:blank?)
       add(ERROR, message_hash(args, &block))
     end
 
     def fatal(*args, &block)
-      return if args.all?(&:blank?)
       add(FATAL, message_hash(args, &block))
     end
 
