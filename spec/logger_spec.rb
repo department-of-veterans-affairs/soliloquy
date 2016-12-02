@@ -25,7 +25,7 @@ describe Soliloquy::Logger do
           it 'adds a bound key that is part of every log line' do
             expect { logger.bind(:app, 'my_app') }
               .to change { logger.instance_variable_get(:@bound_keys) }
-                    .from({}).to(app: 'my_app')
+              .from({}).to(app: 'my_app')
             expect { logger.info 'foo', key: 'bar' }.to output(
               /{"t":"#{datetime_regex}","s":"INFO","msg":"foo","key":"bar","app":"my_app"}/
             ).to_stdout_from_any_process
@@ -37,7 +37,7 @@ describe Soliloquy::Logger do
             logger.instance_variable_set(:@bound_keys, app: 'my_app')
             expect { logger.bind(:service, 'my_service') }
               .to change { logger.instance_variable_get(:@bound_keys) }
-                    .from(app: 'my_app').to(app: 'my_app', service: 'my_service')
+              .from(app: 'my_app').to(app: 'my_app', service: 'my_service')
             expect { logger.info 'foo', key: 'bar' }.to output(
               /{"t":"#{datetime_regex}","s":"INFO","msg":"foo","key":"bar","app":"my_app","service":"my_service"}/
             ).to_stdout_from_any_process
@@ -54,7 +54,7 @@ describe Soliloquy::Logger do
         let(:instance) { klass.new }
         it 'logs the value from the original scope' do
           instance.session_id = 'abc123'
-          logger.bind(:session_id, lambda { instance.session_id })
+          logger.bind(:session_id, -> { instance.session_id })
           expect { logger.info 'foo', key: 'bar' }.to output(
             /{"t":"#{datetime_regex}","s":"INFO","msg":"foo","key":"bar","session_id":"abc123"}/
           ).to_stdout_from_any_process
@@ -86,8 +86,7 @@ describe Soliloquy::Logger do
             /{"t":"#{datetime_regex}","s":"INFO","msg":"foo","key":"bar","app":"my_app"}/
           ).to_stdout_from_any_process
           expect { logger.unbind(:app) }
-            .to change { logger.instance_variable_get(:@bound_keys) }
-                  .from(app: 'my_app').to({})
+            .to change { logger.instance_variable_get(:@bound_keys) }.from(app: 'my_app').to({})
           expect { logger.info 'foo', key: 'bar' }.to output(
             /{"t":"#{datetime_regex}","s":"INFO","msg":"foo","key":"bar"}/
           ).to_stdout_from_any_process
