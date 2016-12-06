@@ -18,7 +18,7 @@ space or comma-delimited values. As an example, using [CloudWatch's JSON metric 
 to find lines with slow db runtime for a particular user:
 
 Data
-```JSON
+```
 { "path": "/user/abc123/things", "method": "GET", "status": 200, "user_id": "abc123", "db": 0.53 }
 { "path": "/user/def456/things", "method": "GET", "status": 200, "user_id": "def456", "db": 1.25 }
 { "path": "/user/abc123/things", "method": "GET", "status": 200, "user_id": "abc123", "db": 5.25 }
@@ -29,7 +29,7 @@ Data
 ```
 
 Query
-```JSON
+```
 { ($.user_id = 'abc123') && ($.db > 5.0) }
 ```
 
