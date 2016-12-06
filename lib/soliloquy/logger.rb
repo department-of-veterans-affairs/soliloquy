@@ -48,9 +48,7 @@ module Soliloquy
     def add(severity, message = nil)
       severity ||= UNKNOWN
       return true if @logdev.nil? || severity < @level
-      @logdev.write(
-        format_message(format_severity(severity), Time.now.utc, nil, message)
-      )
+      @logdev.write(format_message(format_severity(severity), Time.now.utc, nil, message))
       true
     end
 
@@ -68,7 +66,7 @@ module Soliloquy
       merge_bound_keys!(h)
       h
     rescue StandardError => e
-      warn "failed to generate log message hash: #{e.message}"
+      warn "Failed to generate log message hash: #{e.message}"
     end
 
     def merge_bound_keys!(h)
@@ -84,5 +82,3 @@ module Soliloquy
     alias log add
   end
 end
-
-require_relative 'railtie' if defined?(Rails)

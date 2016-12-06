@@ -8,7 +8,7 @@ module Soliloquy
         return unless logger.debug?
         self.class.runtime += event.duration
         payload = event.payload
-        return if IGNORE_PAYLOAD_NAMES.include?(payload[:name])
+        return if IGNORE_PAYLOAD_NAMES.include?(payload[:name]) || payload[:sql] =~ /SELECT "schema_migrations"/
         h = {
           msg: payload[:sql],
           duration: event.duration

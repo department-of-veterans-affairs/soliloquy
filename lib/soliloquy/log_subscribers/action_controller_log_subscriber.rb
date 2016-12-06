@@ -18,7 +18,9 @@ module Soliloquy
           view: view_runtime,
           db: db_runtime
         }
-        h[:session_id] = event.payload[:session_id] if event.payload.key?(:session_id)
+        Soliloquy::RailsConfig.additional_request_vars.each do |var|
+          h[var] = event.payload[var] if event.payload.key?(var)
+        end
         info h
       rescue => e
         error 'LogSubscriber error processing action event', error_message: e.message, event: event
