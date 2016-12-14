@@ -5,7 +5,6 @@ module Soliloquy
   module Formatters
     class KeyValue
       def self.format(highlight = false)
-        highlighter = Soliloquy::KeyValueHighlighter if highlight
         proc do |severity, datetime, _progname, msg|
           s = "[#{datetime.utc.strftime('%Y-%m-%d %H:%M:%S')}] #{severity} : "
           if msg.is_a? Hash
@@ -17,7 +16,7 @@ module Soliloquy
             s += msg
           end
           message = "#{s}\n"
-          message = highlighter.highlight(message, severity) if highlight
+          message = Soliloquy::KeyValueHighlighter.highlight(message, severity) if highlight
           message
         end
       end
