@@ -12,7 +12,7 @@ describe Soliloquy::Logger do
         it 'should log a message' do
           logging_methods.each do |m|
             expect { logger.send(m, 'foo') }.to output(
-              /{"t":"#{datetime_regex}","s":"#{m.upcase}","msg":"foo"}/
+              /{"datetime":"#{datetime_regex}","severity":"#{m.upcase}","msg":"foo"}/
             ).to_stdout_from_any_process
           end
         end
@@ -27,7 +27,7 @@ describe Soliloquy::Logger do
               .to change { logger.instance_variable_get(:@bound_keys) }
               .from({}).to(app: 'my_app')
             expect { logger.info 'foo', key: 'bar' }.to output(
-              /{"t":"#{datetime_regex}","s":"INFO","msg":"foo","key":"bar","app":"my_app"}/
+              /{"datetime":"#{datetime_regex}","severity":"INFO","msg":"foo","key":"bar","app":"my_app"}/
             ).to_stdout_from_any_process
           end
         end
@@ -39,7 +39,7 @@ describe Soliloquy::Logger do
               .to change { logger.instance_variable_get(:@bound_keys) }
               .from(app: 'my_app').to(app: 'my_app', service: 'my_service')
             expect { logger.info 'foo', key: 'bar' }.to output(
-              /{"t":"#{datetime_regex}","s":"INFO","msg":"foo","key":"bar","app":"my_app","service":"my_service"}/
+              /{"datetime":"#{datetime_regex}","severity":"INFO","msg":"foo","key":"bar","app":"my_app","service":"my_service"}/
             ).to_stdout_from_any_process
           end
         end
@@ -56,11 +56,11 @@ describe Soliloquy::Logger do
           instance.session_id = 'abc123'
           logger.bind(:session_id, -> { instance.session_id })
           expect { logger.info 'foo', key: 'bar' }.to output(
-            /{"t":"#{datetime_regex}","s":"INFO","msg":"foo","key":"bar","session_id":"abc123"}/
+            /{"datetime":"#{datetime_regex}","severity":"INFO","msg":"foo","key":"bar","session_id":"abc123"}/
           ).to_stdout_from_any_process
           instance.session_id = 'xyz456'
           expect { logger.info 'foo', key: 'bar' }.to output(
-            /{"t":"#{datetime_regex}","s":"INFO","msg":"foo","key":"bar","session_id":"xyz456"}/
+            /{"datetime":"#{datetime_regex}","severity":"INFO","msg":"foo","key":"bar","session_id":"xyz456"}/
           ).to_stdout_from_any_process
         end
       end
@@ -74,7 +74,7 @@ describe Soliloquy::Logger do
           expect { logger.unbind(:app) }
             .to_not raise_error
           expect { logger.info 'foo', key: 'bar' }.to output(
-            /{"t":"#{datetime_regex}","s":"INFO","msg":"foo","key":"bar"}/
+            /{"datetime":"#{datetime_regex}","severity":"INFO","msg":"foo","key":"bar"}/
           ).to_stdout_from_any_process
         end
       end
@@ -83,12 +83,12 @@ describe Soliloquy::Logger do
         it 'removes the key and so it is not longer part of the output' do
           logger.instance_variable_set(:@bound_keys, app: 'my_app')
           expect { logger.info 'foo', key: 'bar' }.to output(
-            /{"t":"#{datetime_regex}","s":"INFO","msg":"foo","key":"bar","app":"my_app"}/
+            /{"datetime":"#{datetime_regex}","severity":"INFO","msg":"foo","key":"bar","app":"my_app"}/
           ).to_stdout_from_any_process
           expect { logger.unbind(:app) }
             .to change { logger.instance_variable_get(:@bound_keys) }.from(app: 'my_app').to({})
           expect { logger.info 'foo', key: 'bar' }.to output(
-            /{"t":"#{datetime_regex}","s":"INFO","msg":"foo","key":"bar"}/
+            /{"datetime":"#{datetime_regex}","severity":"INFO","msg":"foo","key":"bar"}/
           ).to_stdout_from_any_process
         end
       end
