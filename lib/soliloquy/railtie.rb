@@ -6,6 +6,7 @@ require 'active_record/log_subscriber'
 
 require 'soliloquy/overrides/rails/rack/logger'
 require 'soliloquy/overrides/active_support/logger'
+require 'soliloquy/overrides/active_support/tagged_logging/formatter'
 require 'soliloquy/overrides/action_controller/instrumentation'
 require 'soliloquy/log_subscribers/action_controller_log_subscriber'
 require 'soliloquy/log_subscribers/active_record_log_subscriber'

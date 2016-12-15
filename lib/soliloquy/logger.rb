@@ -9,8 +9,7 @@ require_relative 'formatters/key_value_formatter'
 module Soliloquy
   class Logger < Logger
     def initialize(
-      logdev, shift_age = 7, shift_size = 1_048_576,
-      highlight: false, formatter: Soliloquy::Formatters::JSON
+      logdev, shift_age = 7, shift_size = 1_048_576, highlight: false, formatter: Soliloquy::Formatters::JSON
     )
       super(logdev, shift_age, shift_size)
       self.formatter = formatter.format(highlight)
