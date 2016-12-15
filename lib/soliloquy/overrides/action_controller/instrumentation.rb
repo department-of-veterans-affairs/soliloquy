@@ -18,9 +18,6 @@ ActionController::Instrumentation.class_eval do
       begin
         result = super
         payload[:status] = response.status
-        Soliloquy::RailsConfig.additional_request_vars.each do |var|
-          payload[var] = send(var) if respond_to?(var)
-        end
         result
       ensure
         append_info_to_payload(payload)

@@ -8,7 +8,7 @@ module Soliloquy
         duration = event.duration.nil? ? nil : format('%.2f', event.duration)
         view_runtime = event.payload[:view_runtime].blank? ? nil : format('%.2f', event.payload[:view_runtime])
         db_runtime = event.payload[:db_runtime].blank? ? nil : format('%.2f', event.payload[:db_runtime])
-        h = {
+        info({
           method: event.payload[:method],
           path: event.payload[:path],
           status: event.payload[:status],
@@ -17,11 +17,7 @@ module Soliloquy
           duration: duration,
           view: view_runtime,
           db: db_runtime
-        }
-        Soliloquy::RailsConfig.additional_request_vars.each do |var|
-          h[var] = event.payload[var] if event.payload.key?(var)
-        end
-        info h
+        })
       rescue => e
         error 'LogSubscriber error processing action event', error_message: e.message, event: event
       end

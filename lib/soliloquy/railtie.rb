@@ -12,16 +12,10 @@ require 'soliloquy/log_subscribers/active_record_log_subscriber'
 
 module Soliloquy
   class RailsConfig
-    SUBSCRIBERS = %w(ActionController::LogSubscriber ActiveRecord::LogSubscriber ActionView::LogSubscriber).freeze
-
-    class << self
-      attr_accessor :additional_request_vars
-
-      def add_request_var(var)
-        @additional_request_vars ||= []
-        @additional_request_vars << var
-      end
-    end
+    SUBSCRIBERS = %w(
+      ActionController::LogSubscriber ActiveRecord::LogSubscriber
+ActionView::LogSubscriber ActiveModelSerializers::Logging::LogSubscriber
+    ).freeze
 
     def config
       unsubscribe_rails_default
