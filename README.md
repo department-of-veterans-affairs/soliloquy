@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/department-of-veterans-affairs/soliloquy.svg?branch=master)](https://travis-ci.org/department-of-veterans-affairs/soliloquy)
+
 # Soliloquy
 
 Soliloquy is a Ruby structured logger gem. Soliloquy outputs JSON as the default format and custom
@@ -52,24 +54,25 @@ Or install it yourself as:
 ## Usage
 
 	# ruby
-    logger = Soliloquy::Logger.new(STDOUT)
+    logger = Soliloquy.logger(STDOUT)
     
     # rails
     
     # production uses default JSON formatter to standard out
     # ./config/environments/production.rb
-    config.logger = Soliloquy::Logger.new(STDOUT)
+    config.logger = Soliloquy.logger(STDOUT)
     
     # don't output logs in tests ...
     # ./config/environments/test.rb
-    config.logger = Soliloquy::Logger.new(nil)
+    config.logger = Soliloquy.logger(nil)
+    
     # ... but do expect to log
     # ./spec/my_spec.rb
     expect(Rails.logger).to receive(:error).with('Bad news bears', code: 500, user_id: user_factory.id).once
     
     # in development a highlighted key value formatter can be more human readable
     # ./config/environments/development.rb
-    config.logger = Soliloquy::Logger.new(
+    config.logger = Soliloquy.logger(
       STDOUT, formatter: Soliloquy::Formatters::KeyValue, highlight: true
     )
 
