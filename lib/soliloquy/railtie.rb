@@ -15,7 +15,7 @@ module Soliloquy
   class RailsConfig
     SUBSCRIBERS = %w(
       ActionController::LogSubscriber ActiveRecord::LogSubscriber
-ActionView::LogSubscriber ActiveModelSerializers::Logging::LogSubscriber
+      ActionView::LogSubscriber ActiveModelSerializers::Logging::LogSubscriber
     ).freeze
 
     def config
