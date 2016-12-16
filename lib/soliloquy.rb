@@ -13,7 +13,7 @@ module Soliloquy
         Soliloquy::Logger.new(logdev, shift_age, shift_size, highlight: highlight, formatter: formatter)
       )
     else
-      Soliloquy::Logger.new(logdev, shift_age, shift_size, highlight, formatter)
+      Soliloquy::Logger.new(logdev, shift_age, shift_size, highlight: highlight, formatter: formatter)
     end
   end
   # :nocov:
