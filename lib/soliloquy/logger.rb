@@ -73,7 +73,7 @@ module Soliloquy
         if v.respond_to? :call
           h.merge!(k => v.call) unless v.nil?
         else
-          h.merge!(k => v) unless v.nil?
+          h.merge!(k => v)
         end
       end
     end
