@@ -53,7 +53,7 @@ module Soliloquy
 
     private
 
-    def message_hash(args, &_block)
+    def message_hash(args)
       h = if args[0].is_a? Hash
             args[0]
           elsif args[0].nil? && block_given?
