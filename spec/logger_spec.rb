@@ -8,13 +8,38 @@ describe Soliloquy::Logger do
     let(:datetime_regex) { /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/ }
 
     describe 'logging methods' do
-      context 'with no additional keys' do
+      context 'given a string' do
         it 'should log a message' do
           logging_methods.each do |m|
             expect { logger.send(m, 'foo') }.to output(
               /{"datetime":"#{datetime_regex}","severity":"#{m.upcase}","msg":"foo"}/
             ).to_stdout_from_any_process
           end
+        end
+      end
+      context 'given a hash' do
+        it 'should log a message' do
+          logging_methods.each do |m|
+            expect { logger.send(m, foo: 'bar') }.to output(
+              /{"datetime":"#{datetime_regex}","severity":"#{m.upcase}","foo":"bar"}/
+            ).to_stdout_from_any_process
+          end
+        end
+      end
+      context 'given a block' do
+        it 'should evaluate and log' do
+          potentially = 'potentially'
+          expect { logger.info { 'This is a ' + potentially + ' expensive operation' } }.to output(
+            /{"datetime":"#{datetime_regex}","severity":"INFO","msg":"This is a potentially expensive operation"}/
+          ).to_stdout_from_any_process
+        end
+      end
+      context 'when an error is raised' do
+        it 'should evaluate and log' do
+          expect { logger.info { "divide dis: #{1 / 0}" } }.to output(
+            /{"datetime":"#{datetime_regex}","severity":"WARN","msg":\
+"Failed to generate log message hash: divided by 0"}/
+          ).to_stdout_from_any_process
         end
       end
     end
@@ -39,7 +64,8 @@ describe Soliloquy::Logger do
               .to change { logger.instance_variable_get(:@bound_keys) }
               .from(app: 'my_app').to(app: 'my_app', service: 'my_service')
             expect { logger.info 'foo', key: 'bar' }.to output(
-              /{"datetime":"#{datetime_regex}","severity":"INFO","msg":"foo","key":"bar","app":"my_app","service":"my_service"}/
+              /{"datetime":"#{datetime_regex}","severity":"INFO","msg":"foo",\
+"key":"bar","app":"my_app","service":"my_service"}/
             ).to_stdout_from_any_process
           end
         end

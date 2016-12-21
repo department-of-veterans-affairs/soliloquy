@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 module Rails
   module Rack
+    # Overrides the Rails::Rack::Logger so that tags become part of the message hash
     class Logger
       def call_app(request, env)
         resp = @app.call(env)
@@ -10,6 +11,23 @@ module Rails
         raise
       ensure
         ActiveSupport::LogSubscriber.flush_all!
+      end
+
+      protected
+
+      def compute_tags(request)
+        request_tags = {}
+        @taggers.each do |tag|
+          case tag
+          when Proc
+            (request_tags[:tag] ||= []) << tag.call(request)
+          when Symbol
+            request_tags[tag] = request.send(tag)
+          else
+            (request_tags[:tag] ||= []) << tag
+          end
+        end
+        request_tags
       end
     end
   end
