@@ -11,12 +11,15 @@ require 'soliloquy/log_subscribers/action_controller_log_subscriber'
 require 'soliloquy/log_subscribers/active_record_log_subscriber'
 
 module Soliloquy
+  # Configures Rails to condense log output and use Soliloquy's log subscribers
   class RailsConfig
+    # The log subscribers to unsubscribe
     SUBSCRIBERS = %w(
       ActionController::LogSubscriber ActiveRecord::LogSubscriber
       ActionView::LogSubscriber ActiveModelSerializers::Logging::LogSubscriber
     ).freeze
 
+    # Unsubscribes the default rails subscribers and adds the Soliloquy subscribers
     def config
       unsubscribe_rails_default
       subscribe_soliloquy
@@ -44,6 +47,7 @@ module Soliloquy
 end
 
 module Soliloquy
+  # Railtie that runs the after_initialize callback
   class Railtie < Rails::Railtie
     config.after_initialize do |_app|
       Soliloquy::RailsConfig.new.config

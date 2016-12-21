@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 module Rails
   module Rack
+    # Overrides the Rails::Rack::Logger so that tags become part of the message hash
     class Logger
       def call_app(request, env)
         resp = @app.call(env)

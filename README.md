@@ -20,20 +20,18 @@ space or comma-delimited values. As an example, using [CloudWatch's JSON metric 
 to find lines with slow db runtime for a particular user:
 
 Data
-```
-{ "path": "/user/abc123/things", "method": "GET", "status": 200, "user_id": "abc123", "db": 0.53 }
-{ "path": "/user/def456/things", "method": "GET", "status": 200, "user_id": "def456", "db": 1.25 }
-{ "path": "/user/abc123/things", "method": "GET", "status": 200, "user_id": "abc123", "db": 5.25 }
-{ "path": "/user/abc123/things", "method": "GET", "status": 200, "user_id": "abc123", "db": 2.27 }
-{ "path": "/user/abc123/things", "method": "GET", "status": 200, "user_id": "abc123", "db": 7.19 }
-{ "path": "/user/def456/things", "method": "GET", "status": 200, "user_id": "def456", "db": 0.84 }
-{ "path": "/user/ghi789/things", "method": "GET", "status": 200, "user_id": "ghi789", "db": 2.33 }
-```
+
+    { "path": "/user/abc123/things", "method": "GET", "status": 200, "user_id": "abc123", "db": 0.53 }
+    { "path": "/user/def456/things", "method": "GET", "status": 200, "user_id": "def456", "db": 1.25 }
+    { "path": "/user/abc123/things", "method": "GET", "status": 200, "user_id": "abc123", "db": 5.25 }
+    { "path": "/user/abc123/things", "method": "GET", "status": 200, "user_id": "abc123", "db": 2.27 }
+    { "path": "/user/abc123/things", "method": "GET", "status": 200, "user_id": "abc123", "db": 7.19 }
+    { "path": "/user/def456/things", "method": "GET", "status": 200, "user_id": "def456", "db": 0.84 }
+    { "path": "/user/ghi789/things", "method": "GET", "status": 200, "user_id": "ghi789", "db": 2.33 }
 
 Query
-```
-{ ($.user_id = 'abc123') && ($.db > 5.0) }
-```
+
+    { ($.user_id = 'abc123') && ($.db > 5.0) }
 
 ## Installation
 
@@ -53,25 +51,22 @@ Or install it yourself as:
 
 ## Usage
 
-	# ruby
+    # RUBY
     logger = Soliloquy.logger(STDOUT)
     
-    # rails
+    # RAILS
     
-    # production uses default JSON formatter to standard out
-    # ./config/environments/production.rb
+    # production uses default JSON formatter to standard out, config/environments/production.rb
     config.logger = Soliloquy.logger(STDOUT)
     
-    # don't output logs in tests ...
-    # ./config/environments/test.rb
+    # don't output logs in tests, config/environments/test.rb
     config.logger = Soliloquy.logger(nil)
     
-    # ... but do expect to log
-    # ./spec/my_spec.rb
+    # ... but do expect to log, spec/my_spec.rb
     expect(Rails.logger).to receive(:error).with('Bad news bears', code: 500, user_id: user_factory.id).once
     
     # in development a highlighted key value formatter can be more human readable
-    # ./config/environments/development.rb
+    # config/environments/development.rb
     config.logger = Soliloquy.logger(
       STDOUT, formatter: Soliloquy::Formatters::KeyValue, highlight: true
     )

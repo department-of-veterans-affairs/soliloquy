@@ -3,6 +3,7 @@ require_relative '../highlighter'
 
 module Soliloquy
   module Formatters
+    # Formats messages as JSON
     class JSON
       def self.format(highlight = false)
         proc do |severity, datetime, _progname, msg, tags|
